@@ -28,11 +28,16 @@ var Comment = Backbone.Model.extend({
      * Remember to use setters when working with attributes! */
   },
   votes: function() {
+    return this.get('votes');
     /* Return the votes attribute on this model.
      * Remember to use a getter when working with attributes! */
   },
   upvote: function(){
+    this.set('votes', this.get('votes')+1);
     // Set the `votes` attribute to the current vote count plus one.
+  },
+  downvote: function() {
+    this.set('votes', this.get('votes')-1);
   }
   // Add a downvote function; don't forget the comma above.
 });
@@ -63,6 +68,7 @@ var CommentView = Backbone.View.extend({
      * - `'change:votes'` => this first argument defines what to listen for
      *   - We can listen for a change on a specific attribute using a colon.
      * - `function`       => this is the callback for this event listener */
+      
       this.render()
     /*   - Usually, we can't rely on `this` being what we think it is in
      *      an event listener. However, Backbone allows us to specify what
@@ -137,7 +143,7 @@ var commentView = new CommentView({ model: comment });
  */
 
 // Append the view to the page. This is why we returned html from `render`:
-// $('body').append(commentView.render());
+ $('body').append(commentView.render());
 
 /* The number of votes should be 0.
  * We set that as the initial default value in the comment model.
@@ -157,6 +163,9 @@ var commentView = new CommentView({ model: comment });
  * Try voting up and voting down a couple of times and
  * watch the eventlistener auto update the view.  Pretty cool, eh?
  */
+ comment.set('votes', 0);
+ comment.upvote();
+
     </script>
   </body>
 </html>
